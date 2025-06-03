@@ -10,9 +10,9 @@ from typing import Dict, List, Optional, Tuple, Union, Callable
 import time
 from tqdm import tqdm
 
-from qnn_models.advanced_qnn import QTransformer, QRNN
-from basic_quantum_circuits.data_encoding import create_data_embedding_circuit
-from variational_circuits.variational_circuits import create_variational_circuit
+from quantum_llm.qnn_models.advanced_qnn import QTransformer, QRNN
+from quantum_llm.basic_quantum_circuits.data_encoding import create_data_embedding_circuit
+from quantum_llm.variational_circuits.variational_circuits import create_variational_circuit
 
 
 class QLLMBase:
