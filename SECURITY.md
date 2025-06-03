@@ -13,7 +13,7 @@ Use this section to tell people about which versions of your project are current
 We take the security of Quantum LLM seriously. If you believe you've found a security vulnerability, please follow these steps:
 
 1. **Do not disclose the vulnerability publicly** until it has been addressed by the maintainers.
-2. Email your findings to [security@example.com](mailto:security@example.com). If possible, encrypt your message with our PGP key (available upon request).
+2. Email your findings to [kannanprabakaran84@gmail.com](mailto:kannanprabakaran84@gmail.com). If possible, encrypt your message with our PGP key (available upon request).
 3. Provide a detailed description of the vulnerability, including:
    - The steps to reproduce the issue
    - The potential impact of the vulnerability

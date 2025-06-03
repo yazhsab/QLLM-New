@@ -11,7 +11,7 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Quantum LLM Contributors",
-    author_email="project@example.com",
+    author_email="kannanprabakaran84@gmail.com",
     url="https://github.com/organization/quantum-llm",
     packages=find_packages(),
     install_requires=[
