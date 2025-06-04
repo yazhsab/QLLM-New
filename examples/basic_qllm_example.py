@@ -1,7 +1,7 @@
 """
-Basic example of using the Quantum LLM components.
+Basic example of using the Qynthra components.
 
-This script demonstrates how to create, train, and use a basic Quantum LLM.
+This script demonstrates how to create, train, and use a basic Qynthra model.
 """
 
 import torch
@@ -9,7 +9,7 @@ import numpy as np
 import pennylane as qml
 from tqdm import tqdm
 
-from quantum_llm import (
+from Qynthra import (
     QLLMBase,
     QLLMAdvanced,
     QLLMTokenizer,
@@ -35,7 +35,7 @@ texts = [
 ]
 
 def main():
-    print("Quantum LLM Basic Example")
+    print("Qynthra Basic Example")
     print("-" * 50)
     
     # Create tokenizer
@@ -63,7 +63,7 @@ def main():
     print(f"Using {n_qubits} qubits and {n_layers} layers")
     
     # Create model
-    print("Creating quantum LLM model...")
+    print("Creating Qynthra model...")
     model = QLLMBase(
         vocab_size=vocab_size,
         embedding_dim=embedding_dim,

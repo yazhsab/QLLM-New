@@ -1,18 +1,18 @@
 """
-Setup script for the quantum_llm package.
+Setup script for the Qynthra package.
 """
 
 from setuptools import setup, find_packages
 
 setup(
-    name="quantum_llm",
+    name="Qynthra",
     version="0.1.0",
     description="A quantum-enhanced large language model using PennyLane",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    author="Quantum LLM Contributors",
+    author="Qynthra Contributors",
     author_email="kannanprabakaran84@gmail.com",
-    url="https://github.com/organization/quantum-llm",
+    url="https://github.com/organization/Qynthra",
     packages=find_packages(),
     install_requires=[
         "pennylane>=0.30.0",

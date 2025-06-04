@@ -1,0 +1,174 @@
+# Quantum LLM Worker Kubernetes Deployment
+# Enterprise-grade Kubernetes deployment for Quantum LLM Worker
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quantum-llm-worker
+  namespace: quantum-llm
+  labels:
+    app: quantum-llm
+    component: worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quantum-llm
+      component: worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: quantum-llm
+        component: worker
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: worker
+        image: ${REGISTRY}/quantum-llm:${VERSION}
+        imagePullPolicy: Always
+        args: ["worker", "--queue", "default"]
+        env:
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: quantum-llm-secrets
+              key: jwt-secret
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: quantum-llm-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: quantum-llm-secrets
+              key: redis-url
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: ENVIRONMENT
+          value: "production"
+        - name: QUANTUM_DEVICE
+          value: "default.qubit"
+        resources:
+          requests:
+            cpu: "1"
+            memory: "2Gi"
+          limits:
+            cpu: "4"
+            memory: "8Gi"
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - -c
+            - "import os; os.kill(os.getpid(), 0)"
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+          readOnly: true
+        - name: logs
+          mountPath: /var/log/quantum_llm
+        - name: models
+          mountPath: /app/models
+      volumes:
+      - name: config
+        configMap:
+          name: quantum-llm-config
+      - name: logs
+        emptyDir: {}
+      - name: models
+        persistentVolumeClaim:
+          claimName: quantum-llm-models
+      imagePullSecrets:
+      - name: registry-credentials
+      nodeSelector:
+        kubernetes.io/os: linux
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - quantum-llm
+                - key: component
+                  operator: In
+                  values:
+                  - worker
+              topologyKey: kubernetes.io/hostname
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: quantum-llm-worker
+  namespace: quantum-llm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: quantum-llm-worker
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 60
+      - type: Pods
+        value: 4
+        periodSeconds: 60
+      selectPolicy: Max
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: quantum-llm-models
+  namespace: quantum-llm
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard

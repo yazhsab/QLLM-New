@@ -1,10 +1,14 @@
-# Quantum LLM
+<p align="center">
+  <img src="qynthra.png" alt="Qynthra Logo" width="200"/>
+</p>
+
+# Qynthra
 
 A production-grade enterprise open-source implementation of a quantum-enhanced large language model using PennyLane.
 
 ## Overview
 
-Quantum LLM is a general-purpose quantum language model that leverages quantum computing through PennyLane to potentially achieve quantum advantage over classical models. The implementation is designed to be hardware-agnostic, allowing it to run on quantum simulators now and real quantum hardware in the future.
+Qynthra is a general-purpose quantum language model that leverages quantum computing through PennyLane to potentially achieve quantum advantage over classical models. The implementation is designed to be hardware-agnostic, allowing it to run on quantum simulators now and real quantum hardware in the future.
 
 ## Features
 
@@ -17,9 +21,9 @@ Quantum LLM is a general-purpose quantum language model that leverages quantum c
 
 ## Architecture
 
-The Quantum LLM architecture consists of several key components:
+The Qynthra architecture consists of several key components:
 
-### Core Quantum LLM
+### Core Qynthra
 
 - **Quantum Circuit Architecture**: Hardware-agnostic quantum circuits for data encoding and processing
 - **Tokenization & Embedding**: Advanced tokenization with quantum-enhanced embeddings
@@ -39,8 +43,8 @@ The Quantum LLM architecture consists of several key components:
 
 ```bash
 # Clone the repository
-git clone https://github.com/organization/quantum-llm.git
-cd quantum-llm
+git clone https://github.com/organization/Qynthra.git
+cd Qynthra
 
 # Install dependencies
 pip install -r requirements.txt
@@ -55,7 +59,7 @@ For development setup, please refer to the [Contributing](#contributing) section
 
 ```python
 import torch
-from quantum_llm import QLLMBase, QLLMTokenizer
+from Qynthra import QLLMBase, QLLMTokenizer
 
 # Create tokenizer
 tokenizer = QLLMTokenizer(vocab_size=1000, max_length=64)
@@ -82,9 +86,9 @@ print(generated_text)
 
 ## Examples
 
-The `examples` directory contains several examples demonstrating how to use the Quantum LLM:
+The `examples` directory contains several examples demonstrating how to use the Qynthra:
 
-- `basic_qllm_example.py`: Basic usage of the Quantum LLM components
+- `basic_qllm_example.py`: Basic usage of the Qynthra components
 - `quantum_advantage_demo.py`: Demonstration of potential quantum advantage
 - `multimodal_qllm_example.py`: Example of using the multimodal capabilities with text, images, and audio
 
@@ -99,7 +103,7 @@ python examples/basic_qllm_example.py
 ### Using Different Quantum Circuits
 
 ```python
-from quantum_llm import QLLMAdvanced
+from Qynthra import QLLMAdvanced
 
 # Create advanced model with specific quantum components
 model = QLLMAdvanced(
@@ -119,7 +123,7 @@ model = QLLMAdvanced(
 ### Using Multimodal Capabilities
 
 ```python
-from quantum_llm import MultimodalQLLM, QLLMTokenizer
+from Qynthra import MultimodalQLLM, QLLMTokenizer
 import torch
 
 # Create tokenizer
@@ -158,8 +162,8 @@ print(generated_text)
 ### Custom Quantum Circuits
 
 ```python
-from quantum_llm.basic_quantum_circuits.data_encoding import create_data_embedding_circuit
-from quantum_llm.variational_circuits.variational_circuits import create_variational_circuit
+from Qynthra.basic_quantum_circuits.data_encoding import create_data_embedding_circuit
+from Qynthra.variational_circuits.variational_circuits import create_variational_circuit
 
 # Create custom embedding circuit
 embedding_circuit = create_data_embedding_circuit("hybrid", n_qubits, n_features)
@@ -171,7 +175,7 @@ variational_circuit = create_variational_circuit("custom", n_qubits, n_layers)
 ## Project Structure
 
 ```
-quantum_llm/
+Qynthra/
 ├── __init__.py                     # Package initialization
 ├── qllm_base.py                    # Base implementation
 ├── qllm_advanced.py                # Advanced implementation
@@ -204,7 +208,7 @@ quantum_llm/
 
 ## Contributing
 
-Contributions are welcome and greatly appreciated! We're excited to welcome contributors to the Quantum LLM project.
+Contributions are welcome and greatly appreciated! We're excited to welcome contributors to the Qynthra project.
 
 All contributors are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md). Please read this document before participating in our community.
 
@@ -218,7 +222,7 @@ Please read our [CONTRIBUTING.md](CONTRIBUTING.md) file for detailed information
 ### Getting Started with Contributing
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/your-username/quantum-llm.git`
+2. Clone your fork: `git clone https://github.com/your-username/Qynthra.git`
 3. Set up your development environment as described in [CONTRIBUTING.md](CONTRIBUTING.md)
 4. Create a branch for your changes
 5. Make your changes and commit them
@@ -226,7 +230,7 @@ Please read our [CONTRIBUTING.md](CONTRIBUTING.md) file for detailed information
 
 ## Security
 
-We take the security of Quantum LLM seriously. If you believe you've found a security vulnerability, please follow the guidelines in our [Security Policy](SECURITY.md).
+We take the security of Qynthra seriously. If you believe you've found a security vulnerability, please follow the guidelines in our [Security Policy](SECURITY.md).
 
 ## License
 
@@ -234,14 +238,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Citation
 
-If you use Quantum LLM in your research, please cite:
+If you use Qynthra in your research, please cite:
 
 ```
-@software{quantum_llm,
-  author = {Quantum LLM Contributors},
-  title = {Quantum LLM: A Quantum-Enhanced Large Language Model},
+@software{Qynthra,
+  author = {Qynthra Contributors},
+  title = {Qynthra: A Quantum-Enhanced Large Language Model},
   year = {2025},
-  url = {https://github.com/organization/quantum-llm}
+  url = {https://github.com/organization/Qynthra}
 }
 ```
 

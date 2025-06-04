@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="qynthra.png" alt="Qynthra Logo" width="200"/>
+</p>
+
 # Qynthra Project Plan - Part 2
 
 ## 6. Evaluation Framework (continued)

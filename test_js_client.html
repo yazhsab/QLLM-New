@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qynthra JavaScript Client Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #log {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f5f5f5;
+            height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="qynthra.png" alt="Qynthra Logo" width="150"/>
+    </div>
+    <h1>Qynthra JavaScript Client Test</h1>
+    
+    <div class="section">
+        <h2>Client Initialization</h2>
+        <button id="initClient">Initialize Client</button>
+        <div id="initResult"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Client Methods</h2>
+        <button id="listMethods">List Available Methods</button>
+        <div id="methodsResult"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Mock API Call</h2>
+        <button id="mockGenerate">Mock Text Generation</button>
+        <div id="generateResult"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Log</h2>
+        <div id="log"></div>
+    </div>
+    
+    <!-- Include the Qynthra client library -->
+    <script src="Qynthra/client/javascript/qynthra-client.js"></script>
+    
+    <script>
+        // Function to log messages
+        function log(message, isError = false) {
+            const logElement = document.getElementById('log');
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            if (isError) {
+                logEntry.className = 'error';
+            }
+            logElement.appendChild(logEntry);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        // Global client variable
+        let client = null;
+        
+        // Initialize client
+        document.getElementById('initClient').addEventListener('click', function() {
+            try {
+                log('Initializing Qynthra client...');
+                client = new QynthraClient({
+                    apiUrl: 'http://localhost:8000'
+                });
+                
+                document.getElementById('initResult').innerHTML = 
+                    '<span class="success">✓ Client initialized successfully</span>';
+                log('Client initialized successfully');
+            } catch (error) {
+                document.getElementById('initResult').innerHTML = 
+                    `<span class="error">✗ Error initializing client: ${error.message}</span>`;
+                log(`Error initializing client: ${error.message}`, true);
+            }
+        });
+        
+        // List available methods
+        document.getElementById('listMethods').addEventListener('click', function() {
+            if (!client) {
+                document.getElementById('methodsResult').innerHTML = 
+                    '<span class="error">✗ Client not initialized</span>';
+                log('Client not initialized', true);
+                return;
+            }
+            
+            try {
+                log('Listing available methods...');
+                const methods = [];
+                for (const prop in client) {
+                    if (typeof client[prop] === 'function' && !prop.startsWith('_')) {
+                        methods.push(prop);
+                    }
+                }
+                
+                document.getElementById('methodsResult').innerHTML = 
+                    `<span class="success">✓ Available methods:</span>
+                    <pre>${methods.join('\n')}</pre>`;
+                log(`Found ${methods.length} methods`);
+            } catch (error) {
+                document.getElementById('methodsResult').innerHTML = 
+                    `<span class="error">✗ Error listing methods: ${error.message}</span>`;
+                log(`Error listing methods: ${error.message}`, true);
+            }
+        });
+        
+        // Mock text generation
+        document.getElementById('mockGenerate').addEventListener('click', function() {
+            if (!client) {
+                document.getElementById('generateResult').innerHTML = 
+                    '<span class="error">✗ Client not initialized</span>';
+                log('Client not initialized', true);
+                return;
+            }
+            
+            try {
+                log('Mocking text generation...');
+                
+                // Create a mock response
+                const mockResponse = {
+                    id: 'gen_' + Math.random().toString(36).substr(2, 9),
+                    created_at: new Date().toISOString(),
+                    prompt: 'Hello, quantum world!',
+                    generated_text: 'Hello, quantum world! This is a response from the Qynthra model.',
+                    processing_time: 0.5
+                };
+                
+                // Display the mock response
+                document.getElementById('generateResult').innerHTML = 
+                    `<span class="success">✓ Mock generation successful:</span>
+                    <pre>${JSON.stringify(mockResponse, null, 2)}</pre>`;
+                log('Mock generation successful');
+            } catch (error) {
+                document.getElementById('generateResult').innerHTML = 
+                    `<span class="error">✗ Error in mock generation: ${error.message}</span>`;
+                log(`Error in mock generation: ${error.message}`, true);
+            }
+        });
+        
+        // Log initial message
+        log('Page loaded. Click "Initialize Client" to begin testing.');
+    </script>
+</body>
+</html>
